@@ -1,5 +1,6 @@
 var DocumentDBClient = require('documentdb').DocumentClient;
 var config = require('./config');
+const generatePassword = require('password-generator');
 var TaskList = require('./routes/tasklist');
 var TaskDao = require('./models/taskDao');
 
@@ -15,9 +16,8 @@ var users = require('./routes/users');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -35,10 +35,24 @@ var taskDao = new TaskDao(docDbClient, config.databaseId, config.collectionId);
 var taskList = new TaskList(taskDao);
 taskDao.init();
 
-app.get('/', taskList.showTasks.bind(taskList));
-app.post('/addtask', taskList.addTask.bind(taskList));
-app.post('/completetask', taskList.completeTask.bind(taskList));
-app.set('view engine', 'jade');
+// app.get('/', taskList.showTasks.bind(taskList));
+// app.post('/addtask', taskList.addTask.bind(taskList));
+// app.post('/completetask', taskList.completeTask.bind(taskList));
+
+// Put all API endpoints under '/api'
+app.get('/api/passwords', (req, res) => {
+  const count = 5;
+
+  // Generate some passwords
+  const passwords = Array.from(Array(count).keys()).map(i =>
+    generatePassword(12, false)
+  )
+
+  // Return them as json
+  res.json(passwords);
+
+  console.log(`Sent ${count} passwords`);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
