@@ -1,0 +1,82 @@
+{
+    "parser": "babel-eslint",
+
+    "settings": {
+        "import/resolver": {
+            "webpack": {
+                "config": "webpack.config.babel.js"
+            }
+        },
+
+        "polyfills": ["high-resolution-time", "object-values", "promises"]
+    },
+
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest": true
+    },
+
+    "globals": {
+        "__BROWSER__": true,
+        "__DEV__": true,
+        "__TEST__": true,
+        "sinon": true,
+        "sessionInfo": true
+    },
+
+    "extends": ["airbnb", "prettier"],
+
+    "plugins": ["compat", "prettier"],
+
+    "rules": {
+        // ES6
+        "arrow-body-style": 0,
+        "arrow-parens": 0,
+        "comma-dangle": [2, "always-multiline"],
+        "import/no-named-as-default": 1,
+        "import/prefer-default-export": 1,
+        "indent": 0,
+        "linebreak-style": 0,
+        "max-len": 0,
+        "object-curly-newline": 0,
+        "no-mixed-operators": 1,
+        "no-multi-spaces": [2, { "ignoreEOLComments": true }],
+        "no-param-reassign": 1,
+        "no-return-assign": 1,
+        "no-shadow": 1,
+        "no-unused-vars": [2, { "vars": "all", "args": "none" }],
+        "no-use-before-define": 1,
+        "prefer-destructuring": 0,
+        "spaced-comment": 0,
+
+        // React / JSX
+        "react/jsx-indent": [2, 4],
+        "react/jsx-indent-props": [2, 4],
+        "react/jsx-one-expression-per-line": 1,
+        "react/sort-comp": 2,
+
+        // Plugins
+        "compat/compat": 2
+    },
+
+    "overrides": [
+        {
+            "files": ["test/setup.js", "*.spec.js", "*.spec.jsx"],
+            "globals": {
+                "noop": true
+            },
+            "rules": {
+                "import/no-extraneous-dependencies": 0,
+                "max-len": 0,
+                "no-unused-expressions": 0
+            }
+        },
+        {
+            "files": ["scripts/*"],
+            "rules": {
+                "import/no-extraneous-dependencies": 0
+            }
+        }
+    ]
+}

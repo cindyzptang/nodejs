@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import ChatMessage from './components/ChatMessage';
 import Signup from './components/Signup';
 import ChatApp from './components/ChatApp'; 
-
-import Chatkit from '@pusher/chatkit-server';
-
-const chatkit = new Chatkit({
-  instanceLocator: "v1:us1:39023abe-c71c-4dfc-9f94-74a3798d5fc3",
-  key: "74a7aff1-838f-4705-abd5-291d7d36470e:SLmVnw3HotDVpl0hsN8UqhiCmx8p0tHz4OjkTYisS2Y="
-})
+import { chatkit } from './ChatKitUtil'
 
 
 class App extends Component {
