@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { MessageList, Message, MessageText, MessageGroup } from '@livechat/ui-kit';
+import { MessageList, Message, MessageText, MessageGroup, Row, Avatar } from '@livechat/ui-kit';
+import { withStyles } from '@material-ui/core';
 
 class ChatMessageList extends Component {
     getMessageGroups(messageList) {
@@ -22,7 +23,7 @@ class ChatMessageList extends Component {
         return grandList;
     }
     render() {
-        const { messages, currentUser } = this.props;
+        const { messages, currentUser, classes } = this.props;
 
         if (!messages) {
             return null;
@@ -30,18 +31,22 @@ class ChatMessageList extends Component {
         const messageGroups = this.getMessageGroups(messages);
 
         return (
-            <MessageList>
+            <MessageList className={classes.messageList} active>
                 {messageGroups.map((group, index) => (
-                    <MessageGroup onlyFirstWithMeta key={index}>
+                    <MessageGroup onlyFirstWithMeta key={`message-group-${index}`}>
                         {group.map((message, index) => (
-                            <Message
-                                authorName={message.senderId}
-                                date={message.createdAt}
-                                isOwn={message.senderId === currentUser.id}
-                                key={index}
-                            >
-                                <MessageText>{message.text}</MessageText>
-                            </Message>
+                            <Row reverse={message.senderId === currentUser.id}>
+                                <Message
+                                    authorName={message.senderId}
+                                    date={message.createdAt}
+                                    isOwn={message.senderId === currentUser.id}
+                                    key={`message-${index}`}
+                                >
+                                    <div className={classes.textBubble}>
+                                        <MessageText>{message.text}</MessageText>
+                                    </div>
+                                </Message>
+                            </Row>
                         ))}
                     </MessageGroup>
                 ))}
@@ -49,4 +54,20 @@ class ChatMessageList extends Component {
         );
     }
 }
-export default ChatMessageList;
+
+const styles = {
+    messageList: {
+        height: 'unset !important',
+    },
+    textBubble: {
+        display: 'inline-block',
+        maxWidth: '100%',
+        marginBottom: '0.1em',
+        color: 'rgb(255, 255, 255)',
+        fontSize: 14,
+        borderRadius: '0.4em',
+        border: '1px solid #f06292',
+        background: '#f48fb1',
+    },
+};
+export default withStyles(styles)(ChatMessageList);

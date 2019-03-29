@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ThemeProvider } from '@livechat/ui-kit';
+import { ThemeProvider, defaultTheme } from '@livechat/ui-kit';
 
 import ChatMessage from './components/ChatMessage';
 import Signup from './components/Signup';
@@ -61,7 +61,7 @@ class App extends Component {
             view = <ChatApp currentId={this.state.currentId} />;
         }
         return (
-            <ThemeProvider>
+            <ThemeProvider theme={defaultTheme}>
                 <div className="App">{view}</div>
             </ThemeProvider>
         );
