@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TextComposer, Row, TextInput, SendButton } from '@livechat/ui-kit';
 
 class Input extends Component {
     constructor(props) {
@@ -6,32 +7,26 @@ class Input extends Component {
         this.state = {
             message: '',
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleChange(e) {
-        this.setState({
-            message: e.target.value,
-        });
-    }
-    handleSubmit(e) {
-        e.preventDefault();
-        this.props.onSubmit(this.state.message);
-        this.setState({
-            message: '',
-        });
-    }
+
+    handleSubmit = value => {
+        this.props.onSubmit(value);
+    };
+
     render() {
         return (
-            <form onSubmit={this.handleSubmit} className="input-field">
-                <input
-                    className="message-input"
-                    type="text"
-                    onChange={this.handleChange}
-                    value={this.state.message}
-                />
-                <input className="message-submit" type="submit" value="send" />
-            </form>
+            <TextComposer defaultValue="" onSend={this.handleSubmit}>
+                <Row align="center">
+                    <TextInput
+                        minRows={2}
+                        onKeyDown={this.onKeyDown}
+                        placeholder="Cindy and Dandan await your reply..."
+                    />
+                    <SendButton fit onClick={this.handleSubmit} />
+                </Row>
+
+                <Row verticalAlign="center" justify="right" />
+            </TextComposer>
         );
     }
 }

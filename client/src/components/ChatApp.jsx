@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -20,29 +17,11 @@ const styles = theme => ({
     root: {
         flexGrow: 1,
     },
-    toolbar: {
-        paddingRight: 24, // keep right padding when drawer closed
-    },
     toolbarIcon: {
         display: 'flex',
         alignItems: 'center',
         padding: '0 8px',
         ...theme.mixins.toolbar,
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
     },
     messageContainer: {
         overflowY: 'scroll',
@@ -50,6 +29,9 @@ const styles = theme => ({
     },
     inputField: {
         height: 64,
+    },
+    messageApp: {
+        borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
     },
 });
 
@@ -107,24 +89,24 @@ class ChatApp extends Component {
 
         return (
             <Grid container className={classes.root} spacing={0}>
+                <AppBar position="static" color="default">
+                    <Toolbar>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap>
+                            Let's Talk
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
                 <Grid item xs={3}>
                     <div className={classes.toolbarIcon}>Rooms</div>
                     <Divider />
                     Render room
                 </Grid>
-                <Grid item xs={9}>
-                    <AppBar position="static" color="default">
-                        <Toolbar>
-                            <Typography component="h1" variant="h6" color="inherit" noWrap>
-                                Let's Talk
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
+                <Grid item xs={9} className={classes.messageApp}>
                     <div className={classes.messageContainer}>
                         <MessageList messages={this.state.messages} />
                     </div>
                     <div className={classes.inputField}>
-                        <Input className={classes.inputField} onSubmit={this.addMessage} />
+                        <Input onSubmit={this.addMessage} />
                     </div>
                 </Grid>
             </Grid>

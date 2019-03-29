@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { ThemeProvider } from '@livechat/ui-kit';
+
 import ChatMessage from './components/ChatMessage';
 import Signup from './components/Signup';
 import ChatApp from './components/ChatApp';
@@ -58,7 +60,11 @@ class App extends Component {
         } else if (this.state.currentView === 'chatApp') {
             view = <ChatApp currentId={this.state.currentId} />;
         }
-        return <div className="App">{view}</div>;
+        return (
+            <ThemeProvider>
+                <div className="App">{view}</div>
+            </ThemeProvider>
+        );
     }
 }
 
