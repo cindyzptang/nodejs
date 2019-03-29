@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { MessageList, Message, MessageText, MessageGroup, Row, Avatar } from '@livechat/ui-kit';
 import { withStyles } from '@material-ui/core';
+import { rgb } from 'polished';
 
 class ChatMessageList extends Component {
     getMessageGroups(messageList) {
@@ -63,11 +64,11 @@ const styles = {
         display: 'inline-block',
         maxWidth: '100%',
         marginBottom: '0.1em',
-        color: 'rgb(255, 255, 255)',
+        color: rgb(0, 0, 0),
         fontSize: 14,
         borderRadius: '0.4em',
-        border: '1px solid #f06292',
-        background: '#f48fb1',
+        border: '1px solid #f48fb1',
+        background: '#fce4ec',
     },
 };
 export default withStyles(styles)(ChatMessageList);
