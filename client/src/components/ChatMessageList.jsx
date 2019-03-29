@@ -4,6 +4,18 @@ import { withStyles } from '@material-ui/core';
 import { rgb } from 'polished';
 
 class ChatMessageList extends Component {
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    componentDidMount() {
+        this.scrollToBottom();
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
     getMessageGroups(messageList) {
         let grandList = [];
         let tempArray = [];
@@ -25,10 +37,6 @@ class ChatMessageList extends Component {
     }
     render() {
         const { messages, currentUser, classes } = this.props;
-
-        if (!messages) {
-            return null;
-        }
         const messageGroups = this.getMessageGroups(messages);
 
         return (
@@ -51,6 +59,12 @@ class ChatMessageList extends Component {
                         ))}
                     </MessageGroup>
                 ))}
+                <div
+                    style={{ float: 'left', clear: 'both' }}
+                    ref={el => {
+                        this.messagesEnd = el;
+                    }}
+                />
             </MessageList>
         );
     }
@@ -67,7 +81,7 @@ const styles = {
         color: rgb(0, 0, 0),
         fontSize: 14,
         borderRadius: '0.4em',
-        border: '1px solid #f48fb1',
+        border: '1px solid #fcd4ee',
         background: '#fce4ec',
     },
 };

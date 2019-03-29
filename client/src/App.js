@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { ThemeProvider, defaultTheme } from '@livechat/ui-kit';
 
-import ChatMessage from './components/ChatMessage';
 import Signup from './components/Signup';
 import ChatApp from './components/ChatApp';
 import { chatkit } from './ChatKitUtil';
@@ -53,9 +52,7 @@ class App extends Component {
     render() {
         let view = '';
 
-        if (this.state.currentView === 'ChatMessage') {
-            view = <ChatMessage changeView={this.changeView} />;
-        } else if (this.state.currentView === 'signup') {
+        if (this.state.currentView === 'signup') {
             view = <Signup onSubmit={this.createUser} />;
         } else if (this.state.currentView === 'chatApp') {
             view = <ChatApp currentId={this.state.currentId} />;

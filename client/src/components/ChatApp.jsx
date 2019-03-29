@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { Grid } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { instanceLocator, tokenProviderUrl, generalRoomId } from '../ChatKitUtil';
 import Input from './Input';
@@ -33,13 +34,18 @@ const styles = theme => ({
     messageApp: {
         borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
     },
+    loading: {
+        left: 'calc(50% - 75px)',
+        top: 'calc(50% - 75px)',
+        position: 'fixed',
+    },
 });
 
 class ChatApp extends Component {
     state = {
         currentUser: null,
         currentRoom: { users: [] },
-        messages: [],
+        messages: null,
         users: [],
     };
     componentDidMount() {
@@ -59,8 +65,9 @@ class ChatApp extends Component {
                     messageLimit: 100,
                     hooks: {
                         onMessage: message => {
+                            const { messages } = this.state;
                             this.setState({
-                                messages: [...this.state.messages, message],
+                                messages: messages == null ? [message] : [...messages, message],
                             });
                         },
                     },
@@ -86,6 +93,23 @@ class ChatApp extends Component {
 
     render() {
         const { classes } = this.props;
+        const { messages, currentUser } = this.state;
+
+        if (messages == null) {
+            return (
+                <div className={classes.loading}>
+                    <CircularProgress size={150} thickness={4} />
+                    <Typography
+                        component="div"
+                        color="inherit"
+                        align="left"
+                        style={{ paddingTop: 20 }}
+                    >
+                        Dialing Cindy and Dandan...
+                    </Typography>
+                </div>
+            );
+        }
 
         return (
             <Grid container className={classes.root} spacing={0}>
@@ -103,10 +127,7 @@ class ChatApp extends Component {
                 </Grid>
                 <Grid item xs={9} className={classes.messageApp}>
                     <div className={classes.messageContainer}>
-                        <ChatMessageList
-                            messages={this.state.messages}
-                            currentUser={this.state.currentUser}
-                        />
+                        <ChatMessageList messages={messages} currentUser={currentUser} />
                     </div>
                     <div className={classes.inputField}>
                         <Input onSubmit={this.addMessage} />
