@@ -5,11 +5,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import { Grid } from '@material-ui/core';
 
 import { instanceLocator, tokenProviderUrl, generalRoomId } from '../ChatKitUtil';
 import Input from './Input';
-import MessageList from './MessageList';
-import { Grid } from '@material-ui/core';
+import ChatMessageList from './ChatMessageList';
 
 const drawerWidth = 240;
 
@@ -103,7 +103,10 @@ class ChatApp extends Component {
                 </Grid>
                 <Grid item xs={9} className={classes.messageApp}>
                     <div className={classes.messageContainer}>
-                        <MessageList messages={this.state.messages} />
+                        <ChatMessageList
+                            messages={this.state.messages}
+                            currentUser={this.state.currentUser}
+                        />
                     </div>
                     <div className={classes.inputField}>
                         <Input onSubmit={this.addMessage} />
